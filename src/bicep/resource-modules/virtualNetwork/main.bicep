@@ -7,7 +7,7 @@ param tags object
 @description('Virtual Network Address Prefixes')
 param addressPrefixes array
 @description('Subnet Array Configuration Block')
-param subnets array
+param subnets object
 
 
 resource virtualNetwork 'Microsoft.Network/virtualNetworks@2019-11-01' = {
@@ -18,6 +18,15 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2019-11-01' = {
     addressSpace: {
       addressPrefixes: addressPrefixes
     }
-    subnets: subnets
+    subnets: [for subnet in items(subnets): {
+      name: subnet.value.name
+      properties: {
+        addressPrefix: subnet.value.cidr
+        serviceEndpoints: subnet.value.serviceEndpoints
+        routeTable: {
+          id: subnet.value.id
+        }
+      }
+    }]
   }
 }
