@@ -12,3 +12,5 @@ resource rgp 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   location: location
   tags: tags
 }
+
+output rgpObj object = rgp

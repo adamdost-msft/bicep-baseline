@@ -1,0 +1,1 @@
+az deployment create --location usgovvirginia --template-file ./src/bicep/solutions/main.bicep --debug
